@@ -1,0 +1,10 @@
+{
+  "name": "getstarted-esma-script",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "devDependencies": {
+    "jasmine": "^2.5.3"
+  }
+}
