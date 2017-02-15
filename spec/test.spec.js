@@ -1,5 +1,6 @@
 describe('test', function () {
     it('environment is ready in use', function () {
-        expect(true).toBe(true);
+        let value = () => 1;
+        expect(value()).toBe(1);
     });
 });
