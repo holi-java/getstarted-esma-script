@@ -1,0 +1,1 @@
+export let id = Math.random() * 1000000;
