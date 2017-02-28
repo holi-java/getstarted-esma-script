@@ -338,17 +338,20 @@ describe('proxy', function () {
         expect(p instanceof target.constructor).toBe(true);
     });
 
-    it('Object.keys called with proxy', () => {
-        let foo = new Function();
-        var p = new Proxy({}, {
-            ownKeys(target) {
-                return ['foo'];
+    it('target un-configurable properties must be exists in handler.ownKeys()', () => {
+        function foo() {
+
+        }
+
+        Object.defineProperty(foo, 'bar', {configurable: false});
+
+        var p = new Proxy(foo, {
+            ownKeys() {
+                return ['prototype','bar'];
             }
         });
 
         expect(() => Object.keys(p)).not.toThrow();
-        expect(Reflect.ownKeys(p)).toEqual(['foo']);
-        expect(Object.keys(p)).toEqual([]);
     });
 
 
