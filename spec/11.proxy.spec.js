@@ -316,4 +316,40 @@ describe('proxy', function () {
             expect(proxy.foo).toEqual(proxy);
         });
     });
+
+    it('proxy primitive is denied', () => {
+        expect(() => new Proxy(1, () => {
+        })).toThrowError(TypeError);
+    });
+
+    it('proxy is instanceof target', () => {
+        function foo() {
+
+        }
+
+        var target = new foo();
+        var p = new Proxy(target, {
+            construct: function (target, ...args) {
+                return Reflect.construct(ctor, ...args);
+            }
+        });
+
+        expect(p instanceof foo).toBe(true);
+        expect(p instanceof target.constructor).toBe(true);
+    });
+
+    it('Object.keys called with proxy', () => {
+        let foo = new Function();
+        var p = new Proxy({}, {
+            ownKeys(target) {
+                return ['foo'];
+            }
+        });
+
+        expect(() => Object.keys(p)).not.toThrow();
+        expect(Reflect.ownKeys(p)).toEqual(['foo']);
+        expect(Object.keys(p)).toEqual([]);
+    });
+
+
 });
